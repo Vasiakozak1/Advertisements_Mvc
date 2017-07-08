@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "InputFieldForSelect";
+}
+
+<h2>InputFieldForSelect</h2>
+@using (Html.BeginForm("ShowAds", "Home", FormMethod.Post))
+{
+    <p>Введіть поле для вибірки:</p>
+    @Html.TextBox("field");
+    <input type="submit" value="Відправити"  />
+}
+    
+
+

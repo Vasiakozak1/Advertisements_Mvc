@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<html>
+<head>
+    <title>Сторінка оголошень</title>
+</head>
+<body>
+    <h1>
+        Сторінка оголошень
+    </h1>
+    <h3>Можливі дії</h3>
+    <div class="col-md-2">
+        <button id="btnInsAdvert"class="btn-default  alert-success">@Html.ActionLink("Вставка даних про оголошення", "InputFieldForSelect")</button>
+        </div>
+    <div class="col-md-2">  <button id="btnInsPerson">Вставка даних про людину</button><br /></div>
+        <button id="btnSelectAds">Вибірка оголошень</button><br />
+        <button id="btnSelectPrsn">Вибірка людей</button><br />
+        <button id="btnUpAd">Редагування оглошення</button><br />
+        <button id="btnUpPrsn">Редагування людини</button><br />
+        <button id="DelAd">Видалення оголошення</button><br />
+        <button id="DelPrsn">Видалення людини</button><br />
+    
+</body>
+</html>
+

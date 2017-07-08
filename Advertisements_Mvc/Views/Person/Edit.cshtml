@@ -1,0 +1,88 @@
+﻿@model Advertisements_Mvc.Models.Person
+@{
+    ViewBag.Title = "Редагування";
+}
+<h2>Редагування</h2>
+<div class="container">
+    <div class="row main">
+        <div class="main-login main-center">
+            @using (Html.BeginForm("Validate", "Person",FormMethod.Post))
+            {
+                @Html.HiddenFor(m => m.ID)
+                <div class="form-group">
+                    <label for="name" class="cols-sm-2 control-label">Ім'я</label>
+                    <div class="input-group col-md-3">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <i class="fa fa-user fa" aria-hidden="true"></i>
+                        </span>
+                        @Html.TextBoxFor(m => m.Name, new { Class = "form-control", placeholder = "Введіть ім'я'" })
+                    </div>
+                    
+                    @if (ViewBag.InvMessage.Length > 0)
+                    {
+                        if (ViewBag.InvMessage[0] != "\r" && ViewBag.InvMessage[0] != null)
+                        {
+                            <div class="clearfix">
+                                <div>
+                                    <div class="alert alert-danger text-center col-md-3 " role="alert">
+                                        <p class="text-danger">@ViewBag.InvMessage[0]</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    <div>
+                        <label for="email" class="cols-sm-2 control-label">Ел. пошта</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group col-md-3">
+                                <span class="input-group-addon">@@<i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                @Html.TextBoxFor(m => m.Email, new { Class = "form-control", placeholder = "Введіть емейл" })
+                            </div>
+                        </div>
+                        @if (ViewBag.InvMessage.Length > 1)
+                        {
+                            if (ViewBag.InvMessage[1] != "\r" && ViewBag.InvMessage[1] != null)
+                            {
+                                <div class = "clearfix">
+                                    <div class="alert alert-danger text-center col-md-3" role="alert">
+                                        <p class="text-danger">@ViewBag.InvMessage[1]</p>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username" class="cols-sm-2 control-label">Номер телефону</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group col-md-3">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-earphone"></span>
+                            <i class="fa fa-users fa" aria-hidden="true"></i></span>
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { Class = "form-control",placeholder = "Введіть номер телефону" })
+                        </div>
+                    </div>
+                    @if (ViewBag.InvMessage.Length > 2)
+                    {
+                        if (ViewBag.InvMessage[2] != "\r" && ViewBag.InvMessage[2] != null) 
+                        {
+                            <div class="clearfix">
+                                <div class="alert alert-danger text-center col-md-3" role="alert">
+                                    <p class="text-danger">@ViewBag.InvMessage[2]</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                    
+                </div>
+                <input type="submit" value="Змінити" class="btn btn-primary btn" />
+                
+            }
+
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,22 @@
+﻿@model Advertisements_Mvc.Models.Advertisment
+@{
+    ViewBag.Title = "ShowAds";
+}
+<h1>Результат вибірки</h1>
+@if (Model == null)
+{
+        <p>В базі даних нічого не знайдено</p>
+}
+else
+{
+    <p>@Model.NameOfAd</p>
+    <p>@Model.Price</p>
+    <p>@Model.ServiceType.ToString()</p>
+    <p>@string.Format("\t{0}","Відповідальний за оголошення")</p>
+    <p>@Model.Who.ID</p>
+    <p>@Model.Who.Name</p>
+    <p>@Model.Who.PhoneNumber</p>
+    <p>@Model.Who.Email</p>
+}
+
+

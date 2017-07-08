@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Languages>
+  <Ukrainian>
+    <key>invalid_phone</key>
+    <value>Неправильний формат телефону</value>
+    <key>too_long_name</key>
+    <value>Невалідне ім'я</value>
+    <key>wrong_email</key>
+    <value>Неправильний формат електронної пошти</value>
+    
+  </Ukrainian>
+
+</Languages>
