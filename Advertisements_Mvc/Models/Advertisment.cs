@@ -11,10 +11,12 @@ namespace Advertisements_Mvc.Models
         public string Price { get; set; }
         public ServiceType ServiceType { get; set; }
         public Person Who { get; set; }
+        public int ID { get; set; }
 
-        public Advertisment(string NameOfAd, ServiceType ServiceType,
+        public Advertisment(int ID, string NameOfAd, ServiceType ServiceType,
             Person Who, string Price = "")
         {
+            this.ID = ID;
             this.NameOfAd = NameOfAd;
             this.Price = Price;
             this.ServiceType = ServiceType;

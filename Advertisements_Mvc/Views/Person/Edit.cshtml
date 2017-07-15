@@ -1,28 +1,35 @@
 ﻿@model Advertisements_Mvc.Models.Person
 @{
-    ViewBag.Title = "Редагування";
+    ViewBag.Title = Advertisements_Mvc.App_LocalResources.PersonEdit.heading;
 }
-<h2>Редагування</h2>
-<div class="container">
+
+<h2>@Advertisements_Mvc.App_LocalResources.PersonEdit.heading</h2>
+<div class="container">   
     <div class="row main">
         <div class="main-login main-center">
+
+
             @using (Html.BeginForm("Validate", "Person",FormMethod.Post))
             {
                 @Html.HiddenFor(m => m.ID)
                 <div class="form-group">
-                    <label for="name" class="cols-sm-2 control-label">Ім'я</label>
+                    <label for="name" class="cols-sm-2 control-label">@Advertisements_Mvc.App_LocalResources.PersonIndex.Name</label>
                     <div class="input-group col-md-3">
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-user"></span>
                             <i class="fa fa-user fa" aria-hidden="true"></i>
                         </span>
-                        @Html.TextBoxFor(m => m.Name, new { Class = "form-control", placeholder = "Введіть ім'я'" })
-                    </div>
+                        @Html.TextBoxFor(m => m.Name, new { Class = "form-control", placeholder = Advertisements_Mvc.App_LocalResources.PersonEdit.enter_name  })
+                    </div>                    
+
                     
                     @if (ViewBag.InvMessage.Length > 0)
                     {
                         if (ViewBag.InvMessage[0] != "\r" && ViewBag.InvMessage[0] != null)
                         {
+                            <div class="row" style="margin-top:15px">
+
+                            </div>
                             <div class="clearfix">
                                 <div>
                                     <div class="alert alert-danger text-center col-md-3 " role="alert">
@@ -33,17 +40,21 @@
                         }
                     }
                     <div>
-                        <label for="email" class="cols-sm-2 control-label">Ел. пошта</label>
+                        <label for="email" class="cols-sm-2 control-label">@Advertisements_Mvc.App_LocalResources.PersonIndex.Email</label>
                         <div class="cols-sm-10">
                             <div class="input-group col-md-3">
                                 <span class="input-group-addon">@@<i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                                @Html.TextBoxFor(m => m.Email, new { Class = "form-control", placeholder = "Введіть емейл" })
+                                @Html.TextBoxFor(m => m.Email, new { Class = "form-control", placeholder = Advertisements_Mvc.App_LocalResources.PersonEdit.enter_email })
                             </div>
                         </div>
+                        
                         @if (ViewBag.InvMessage.Length > 1)
                         {
                             if (ViewBag.InvMessage[1] != "\r" && ViewBag.InvMessage[1] != null)
                             {
+                                <div class="row" style="margin-top:15px">
+
+                                </div>
                                 <div class = "clearfix">
                                     <div class="alert alert-danger text-center col-md-3" role="alert">
                                         <p class="text-danger">@ViewBag.InvMessage[1]</p>
@@ -55,19 +66,23 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="username" class="cols-sm-2 control-label">Номер телефону</label>
+                    <label for="username" class="cols-sm-2 control-label">@Advertisements_Mvc.App_LocalResources.PersonIndex.PhoneNumb</label>
                     <div class="cols-sm-10">
                         <div class="input-group col-md-3">
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-earphone"></span>
                             <i class="fa fa-users fa" aria-hidden="true"></i></span>
-                            @Html.TextBoxFor(m => m.PhoneNumber, new { Class = "form-control",placeholder = "Введіть номер телефону" })
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { Class = "form-control",placeholder = Advertisements_Mvc.App_LocalResources.PersonEdit.enter_phone, id = "phoneEdit", value = "+380 (__) ___-__-__" })
                         </div>
                     </div>
+                    
                     @if (ViewBag.InvMessage.Length > 2)
                     {
-                        if (ViewBag.InvMessage[2] != "\r" && ViewBag.InvMessage[2] != null) 
+                        if (ViewBag.InvMessage[2] != "\r" && ViewBag.InvMessage[2] != null)
                         {
+                            <div class="row" style="margin-top:15px;">
+
+                            </div>
                             <div class="clearfix">
                                 <div class="alert alert-danger text-center col-md-3" role="alert">
                                     <p class="text-danger">@ViewBag.InvMessage[2]</p>
@@ -77,7 +92,12 @@
                     }
                     
                 </div>
-                <input type="submit" value="Змінити" class="btn btn-primary btn" />
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2">
+                        <input type="submit" value="Змінити" class="btn btn-primary btn" />
+                    </div>
+                </div>
                 
             }
 

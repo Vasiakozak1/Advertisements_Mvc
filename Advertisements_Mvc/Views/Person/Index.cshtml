@@ -1,25 +1,40 @@
 ﻿
 @{
-    ViewBag.Title = "Всі люди в базі даних";
+    ViewBag.Title = Advertisements_Mvc.App_LocalResources.PersonIndex.Advertisers;
 }
 
 @model IEnumerable<Advertisements_Mvc.Models.Person>
 
 <div>
     <h2>
-        Всі люди що є в базі даних
+        @Advertisements_Mvc.App_LocalResources.PersonIndex.Advertisers
     </h2>
+    <div class="container">
+        <div class="row ">
+            <div class="col-md-9">
+            </div>
+            <div class="col-md-1" style="margin-left:148px; margin-right:auto">
+                <p data-placement="top" data-toggle="tooltip" title=@Advertisements_Mvc.App_LocalResources.PersonIndex.AddTip>
+                    <a class="btn btn-success btn-sm" value="Додати" href="~/Person/Create">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </a>
+                </p>
+            </div>
+        </div>      
+        </div>
+    
+    
     <table class="table table-striped table-bordered ">
         <thead>
             <tr>
-                <th class="text-center">Ім'я</th>
-                <th class="text-center">Номер телефону</th>
-                <th class="text-center">Ел. пошта</th>
-                <th class="text-center">Дії</th>
+                <th class="text-center">@Advertisements_Mvc.App_LocalResources.PersonIndex.Name</th>
+                <th class="text-center">@Advertisements_Mvc.App_LocalResources.PersonIndex.PhoneNumb</th>
+                <th class="text-center">@Advertisements_Mvc.App_LocalResources.PersonIndex.Email</th>
+                <th class="text-center">@Advertisements_Mvc.App_LocalResources.PersonIndex.Actions</th>
             </tr>
         </thead>
         <tbody>
-            
+                
     @foreach (Advertisements_Mvc.Models.Person ad in Model)
     {
         <tr>
@@ -28,17 +43,18 @@
             <td class="text-center">@ad.Email</td>
             <td class="text-center">
                 <div class="btn-group">
-                    <p data-placement="top" data-toggle="tooltip" title="Редагувати">
+                    <p data-placement="top" data-toggle="tooltip" title=@Advertisements_Mvc.App_LocalResources.PersonIndex.UpdateTip>
                         <a class="btn btn-primary btn-xs" id="@ad.ID" href="~/Person/Edit?ID=@ad.ID">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                     </p>
                 </div>
                 <div class="btn-group">
-                    <p data-placement="top" data-toggle="tooltip" title="Видалити">
-                        <a class="btn btn-danger btn-xs" id="@ad.ID" href="">
+                    <p data-placement="top" data-toggle="tooltip" title=@Advertisements_Mvc.App_LocalResources.PersonIndex.DeleteTip>
+                        <a class="btn btn-danger btn-xs" id="@ad.ID" href="~/Person/Delete?ID=@ad.ID">
                             <span class="glyphicon glyphicon-trash"></span>
                         </a>
+                        
                     </p>
                 </div>
             </td>

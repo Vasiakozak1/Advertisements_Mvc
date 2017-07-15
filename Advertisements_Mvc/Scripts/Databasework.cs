@@ -76,7 +76,7 @@ namespace Advertisements_Mvc.Scripts
             Advertisment advertisementResult = null;
             Person personResult = null;
             MySqlCommand command = conn.CreateCommand();
-            string queryText = string.Format("SELECT advertisement.adname, advertisement.price, advertisement.currency, advertisement.servicetype,"
+            string queryText = string.Format("SELECT advertisement.adname, advertisement.price, advertisement.currency, advertisement.servicetype, advertisement.id"
                 + "person.id, person.name, person.phone_number, person.email FROM advertisement INNER JOIN person ON advertisement.person_id = person.id");
             command.CommandText = queryText;
             MySqlDataReader dataRead = command.ExecuteReader(CommandBehavior.Default);
@@ -88,21 +88,56 @@ namespace Advertisements_Mvc.Scripts
                 int.TryParse(dataRead.GetValue(1).ToString(), out price);
                 char.TryParse(dataRead.GetValue(2).ToString(), out currency);
                 string servType = dataRead.GetValue(3).ToString();
-                int personID = (int)dataRead.GetValue(4);
+                int adId = (int)dataRead.GetValue(4);
+                int personID = (int)dataRead.GetValue(5);
                 if (adname == field || price.ToString() == field || currency.ToString() == field || servType == field || personID.ToString() == field)
                 {
-                    string personName = dataRead.GetValue(5).ToString();
-                    string phoneNumber = dataRead.GetValue(6).ToString();
-                    string eMail = dataRead.GetValue(7).ToString();
+                    string personName = dataRead.GetValue(6).ToString();
+                    string phoneNumber = dataRead.GetValue(7).ToString();
+                    string eMail = dataRead.GetValue(8).ToString();
                     personResult = new Person(personID, personName, phoneNumber, eMail);
-                    advertisementResult = new Advertisment(adname, Advertisment.GetServiceFromStr(servType), personResult, price == 0 ? "" : price.ToString() + currency);
+                    advertisementResult = new Advertisment(adId, adname, Advertisment.GetServiceFromStr(servType), personResult, price == 0 ? "" : price.ToString() + currency);
                 }
             }
             dataRead.Close();
 
             return advertisementResult;
         }
-        public void InsertIntoTable(Person person)
+        public IEnumerable<Advertisment> GetAdvertisementsBy(string field)
+        {
+            List<Advertisment> resultAds = new List<Advertisment>();
+            MySqlCommand command = conn.CreateCommand();
+            string queryText = string.Format("SELECT advertisement.adname, advertisement.price, advertisement.currency, advertisement.servicetype, advertisement.id,"
+               + " person.id, person.name, person.phone_number, person.email FROM advertisement INNER JOIN person ON advertisement.person_id = person.id");
+            command.CommandText = queryText;
+
+            MySqlDataReader dataRead = command.ExecuteReader(CommandBehavior.Default);
+            while (dataRead.Read())
+            {
+                int price = 0;
+                char currency;
+                string adname = dataRead.GetValue(0).ToString();
+                int.TryParse(dataRead.GetValue(1).ToString(), out price);
+                char.TryParse(dataRead.GetValue(2).ToString(), out currency);
+                string servType = dataRead.GetValue(3).ToString();
+                int adId = (int)dataRead.GetValue(4);
+                int personID = (int)dataRead.GetValue(5);
+                if (adname == field || price.ToString() == field || currency.ToString() == field || servType == field || personID.ToString() == field)
+                {
+                    string personName = dataRead.GetValue(6).ToString();
+                    string phoneNumber = dataRead.GetValue(7).ToString();
+                    string eMail = dataRead.GetValue(8).ToString();
+                    Person tempPerson = new Person(personID, personName, phoneNumber, eMail);
+                    Advertisment tempAd = new Advertisment(adId, adname, Advertisment.GetServiceFromStr(servType), tempPerson, price == 0 ? "" : price.ToString() + currency);
+                    resultAds.Add(tempAd);
+                }
+            }
+            dataRead.Close();
+            command.Dispose();
+            return resultAds;
+        }
+
+        public void InsertInto(Person person)
         {
             if (person == null)
                 throw new Exception("Спроба записати null значення");
@@ -122,7 +157,7 @@ namespace Advertisements_Mvc.Scripts
         {
             if (advertisment == null || advertisment.Who == null)
                 throw new Exception("Спроба записати null значення");
-            InsertIntoTable(advertisment.Who);
+            InsertInto(advertisment.Who);
             int lastID = GetLastPersonID();
             MySqlCommand command = this.conn.CreateCommand();
 
@@ -185,15 +220,7 @@ namespace Advertisements_Mvc.Scripts
             {
                 if (exc.Number == 1451)
                 {
-                    if (HomeController.GetAllowToDelete())
-                    {
-                        string innerQuery = "DELETE FROM advertisement where person_id = {0}" + person.ID;
-                        command = conn.CreateCommand();
-                        command.CommandText = innerQuery;
-                        command.ExecuteNonQuery();
-                        command.Dispose();
-                        Delete(person);
-                    }
+                    
                 }
             }
 
@@ -203,8 +230,16 @@ namespace Advertisements_Mvc.Scripts
             MySqlCommand command = conn.CreateCommand();
             string price = advertisement.Price.Substring(0, advertisement.Price.Length - 1);
             string currency = advertisement.Price.Substring(advertisement.Price.Length - 1, 1);
-            string queryText = string.Format("DELETE FROM advertisement WHERE adname = \"{0}\" AND price = {1} AND currency = \"{2}\" " +
-                "AND servicetype = \"{3}\" AND person_id = {4}", advertisement.NameOfAd, price, currency, advertisement.ServiceType.ToString(), advertisement.Who.ID);
+            string queryText = string.Format("DELETE FROM advertisement WHERE id = {0}", advertisement.ID);
+            command.CommandText = queryText;
+            command.ExecuteNonQuery();
+            command.Dispose();
+        }
+
+        public void DeleteAdsBy(Person person)
+        {
+            MySqlCommand command = conn.CreateCommand();
+            string queryText = string.Format("DELETE FROM advertisement WHERE person_id = {0}", person.ID);
             command.CommandText = queryText;
             command.ExecuteNonQuery();
             command.Dispose();
@@ -244,14 +279,16 @@ namespace Advertisements_Mvc.Scripts
                 int price = reader.GetValue(1) != null ? (int)reader.GetValue(1) : 0;
                 char currency = reader.GetValue(2) != null ? (char)reader.GetValue(2) : char.MinValue;
                 ServiceType servType = Advertisment.GetServiceFromStr(reader.GetValue(3).ToString());
-
+                int adId = (int)reader.GetValue(4);
                 int id = (int)reader.GetValue(5);
                 string name = reader.GetValue(6).ToString();
                 string phoneNumber = reader.GetValue(7).ToString();
                 string eMail = reader.GetValue(8).ToString();
                 Person p = new Person(id, name, phoneNumber, eMail);
-                advs.Add(new Advertisment(adname, servType, p, price != 0 ? price.ToString() : ""));
+                advs.Add(new Advertisment(adId, adname, servType, p, price != 0 ? price.ToString() : ""));
             }
+            reader.Close();
+            command.Dispose();
             return advs;
         }
 

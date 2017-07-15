@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Advertisements_Mvc.Scripts;
 using Advertisements_Mvc.Models;
+
 namespace Advertisements_Mvc.Controllers
 {
     public class HomeController : Controller
@@ -24,6 +25,7 @@ namespace Advertisements_Mvc.Controllers
         public ViewResult ShowAds(string field)
         {
             Advertisment adv = currentDB.GetAdvertisementBy(field);
+            
             return View(adv);
         }
         /// <summary>
@@ -31,9 +33,6 @@ namespace Advertisements_Mvc.Controllers
         /// які пов'язані із ним
         /// </summary>
         /// <returns></returns>
-        public static bool GetAllowToDelete()
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

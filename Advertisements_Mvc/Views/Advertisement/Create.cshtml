@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<div class="container">
+    <div class="row main">
+        <div class="main-login main-center">
+            @using (Html.BeginForm("AcceptAdding", "Advertisement", FormMethod.Post))
+            {
+                <div class="form-group">
+                    <label for="NameOfAd" class="control-label"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-tag"></span>
+                        </span>
+                        @Html.TextBox("NameOfAd", "", new { Class = "form-control", placeholder = Advertisements_Mvc.App_LocalResources.AdvertisementCreate.enter_name })
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label for="ServiceType" class="control-label"></label>
+                    <div class="input-group">
+                        @*<span class="input-group-addon">
+                            <span class="glyphicon glyphicon-star"></span>
+                        </span>*@
+                        <div class="container body-content">
+                            @Html.DropDownList("ServiceType", (IEnumerable<SelectListItem>)ViewBag.advTypes, new { Class = "selectpicker" })
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="form-group">
+                    <label for="Price" class="control-label"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-usd"></span>
+                        </span>
+                        @Html.TextBox("Price","",new { Class = "form-control", placeholder = Advertisements_Mvc.App_LocalResources.AdvertisementCreate.enter_price  })
+                    </div>
+                    @Html.Hidden("Who", null)
+                    @Html.Hidden("ID", 0)
+                </div>
+                <input type="submit" value="Створити" class="btn btn-primary btn" />
+                
+            }
+        </div>
+    </div>
+</div>

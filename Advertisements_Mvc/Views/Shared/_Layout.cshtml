@@ -7,32 +7,51 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
-
+    <script src="~/Scripts/InputPhoneMask.js"></script>
+    <link href="~/Content/Mystyles.css" rel="stylesheet" type="text/css" />
+    @*<link href="~/Content/bootstrap-select.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" type="text/css" />*@
+    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">       
-
-            <div class="nav navbar-nav">
-                <ul class="nav navbar-nav">  
+                <ul class="nav navbar-nav navbar-left">
                     <li class="@(ViewBag.CurrentTab == "Home"?"active":"")">
-                        @Html.ActionLink("Рекламне агенство", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink(Advertisements_Mvc.App_LocalResources.Layout.main_page, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                     </li>
                     <li class="@(ViewBag.CurrentTab == "Advertisement"?"active":"")">
-                        @Html.ActionLink("Оголошення", "Index", "Advertisement", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink(Advertisements_Mvc.App_LocalResources.Layout.advertisements, "Index", "Advertisement", new { area = "" }, new { @class = "navbar-brand" })
                     </li>
                     <li class="@(ViewBag.CurrentTab == "Person" ? "active":"")">
-                        @Html.ActionLink("Люди", "Index", "Person", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink(Advertisements_Mvc.App_LocalResources.Layout.persons, "Index", "Person", new { area = "" }, new { @class = "navbar-brand" })
                     </li>
                 </ul>
-                
-            </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li role="presentation" class="dropdown ">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img src='@Url.Content(Advertisements_Mvc.Controllers.LanguageController.GetCurrLangImg())' width="23" height="23" />
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" style="background-color:rgb(0, 0, 0)">
+                            @foreach (KeyValuePair<string, string> lang in Advertisements_Mvc.Controllers.LanguageController.GetAbrsAndUrls())
+                            {   
+                                <li class="text-center dropdown-item" style="background-color:rgb(0,0,0); " >
+                                    <a href='@Url.Action("Index","Language",new { languageAbbrevation = lang.Key })' class="btn btn-default" style="background-color:rgb(0,0,0); ">
+                                        <img src='@Url.Content(lang.Value)' width="29" height="29" />
+                                    </a>
+                                    
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+                           
             
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                 </ul>
             </div>
-    </div>
-    
+    </div>    
 
     <div class="container body-content">
         @RenderBody()

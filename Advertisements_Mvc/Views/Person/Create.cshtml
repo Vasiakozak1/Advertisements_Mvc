@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = Advertisements_Mvc.App_LocalResources.PersonAdd.heading;
+}
+
+<h2>@Advertisements_Mvc.App_LocalResources.PersonAdd.heading</h2>
+<div class="container">
+
+    <div class="row main">
+        <div class="main-login main-center">
+            @using (Html.BeginForm("Validate", "Person", FormMethod.Post))
+            {
+                <div class="form-group">
+
+                    
+
+                    <label for="name" class="cols-sm-2 control-label">@Advertisements_Mvc.App_LocalResources.PersonDelete.name</label>
+                    <div class="input-group col-md-3">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <i class="fa fa-user fa" aria-hidden="true"></i>
+                        </span>
+                        
+                        @Html.TextBox("Name", "", new { Class = "form-control", placeholder = Advertisements_Mvc.App_LocalResources.PersonEdit.enter_name })
+                    </div>
+
+                    @if (ViewBag.InvMessage.Length > 0)
+                    {
+                        if (ViewBag.InvMessage[0] != "\r" && ViewBag.InvMessage[0] != null)
+                        {
+                            <div class="clearfix">
+                                <div>
+                                    <div class="alert alert-danger text-center col-md-3 " role="alert">
+                                        <p class="text-danger">@ViewBag.InvMessage[0]</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    <div>
+                        <label for="email" class="cols-sm-2 control-label">@Advertisements_Mvc.App_LocalResources.PersonAdd.email</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group col-md-3">
+                                <span class="input-group-addon">@@<i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                @Html.TextBox("Email","", new { Class = "form-control", placeholder = Advertisements_Mvc.App_LocalResources.PersonEdit.enter_email })
+                            </div>
+                        </div>
+                        @if (ViewBag.InvMessage.Length > 1)
+                        {
+                            if (ViewBag.InvMessage[1] != "\r" && ViewBag.InvMessage[1] != null)
+                            {
+                                <div class="clearfix">
+                                    <div class="alert alert-danger text-center col-md-3" role="alert">
+                                        <p class="text-danger">@ViewBag.InvMessage[1]</p>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="username" class="cols-sm-2 control-label">@Advertisements_Mvc.App_LocalResources.PersonDelete.phone</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group col-md-3">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-earphone"></span>
+                                <i class="fa fa-users fa" aria-hidden="true"></i>
+                            </span>
+                            @Html.TextBox("PhoneNumber", "+380 (__) ___-__-__", new { Class = "form-control", placeholder = Advertisements_Mvc.App_LocalResources.PersonEdit.enter_phone,  value = "+380 (__) ___-__-__",id = "phoneEdit" })
+                        </div>
+                    </div>
+                    @if (ViewBag.InvMessage.Length > 2)
+                    {
+                        if (ViewBag.InvMessage[2] != "\r" && ViewBag.InvMessage[2] != null)
+                        {
+                            <div class="clearfix">
+                                <div class="alert alert-danger text-center col-md-3" role="alert">
+                                    <p class="text-danger">@ViewBag.InvMessage[2]</p>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+                <input type="submit" value="Створити" class="btn btn-primary btn" />
+
+            }
+
+        </div>
+
+    </div>
+</div>
+
+

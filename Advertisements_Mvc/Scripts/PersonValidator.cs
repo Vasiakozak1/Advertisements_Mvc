@@ -12,10 +12,6 @@ namespace Advertisements_Mvc.Scripts
     public class PersonValidator : Validator
     {
 
-        private static string[] VALIDATOR_MESSAGE = LanguageResource.GetPersonValidatorStrings(MvcApplication.AppLanguage);
-        private const int WRONG_PHONE_NUMBER = 0;
-        private const int WRONG_NAME = 1;
-        private const int WRONG_EMAIL = 2;
         private string resultMessage;
         private Person person;
         public string Message
@@ -38,27 +34,38 @@ namespace Advertisements_Mvc.Scripts
 
         public bool IsValid()
         {
-            Regex phoneRegExpr = new Regex(@"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$");
             Regex eMailRegExpr = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Regex phoneRegExpr = new Regex(@"^\+[0-9]{3}\s+[0-9]{2}\s+[0-9]{7}$");
             StringBuilder buildResult = new StringBuilder();
             bool isRight = true;
             if (person.Name.Length > 20 || person.Name.Any(ch => char.IsNumber(ch))) 
             {
                 isRight = false;
-                buildResult.AppendLine(VALIDATOR_MESSAGE[WRONG_NAME]);
+                buildResult.AppendLine(App_LocalResources.PerVal.too_long_name);
             }
             else
                 buildResult.AppendLine();
             if (!eMailRegExpr.IsMatch(person.Email)) 
             {
                 isRight = false;
-                buildResult.AppendLine(VALIDATOR_MESSAGE[WRONG_EMAIL]);
+                buildResult.AppendLine(App_LocalResources.PerVal.wrong_email);
             }
             else
                 buildResult.AppendLine();
-            if (!phoneRegExpr.IsMatch(person.PhoneNumber)) 
+
+            string[] numbersDigits = person.PhoneNumber.Split(new char[] { '(', ')', ' ', '-' }, StringSplitOptions.RemoveEmptyEntries);
+            StringBuilder buildedNumber = new StringBuilder();
+            for (int i = 0; i < numbersDigits.Length; i++)
             {
-                buildResult.AppendLine(VALIDATOR_MESSAGE[WRONG_PHONE_NUMBER]);
+                if (i <= 1)
+                    buildedNumber.Append(numbersDigits[i] + " ");
+                else
+                    buildedNumber.Append(numbersDigits[i]);
+            }
+
+            if (!(phoneRegExpr.IsMatch(buildedNumber.ToString())))  
+            {
+                buildResult.AppendLine(App_LocalResources.PerVal.invalid_phone);
                 isRight = false;
             }
             else
